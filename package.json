@@ -1,0 +1,20 @@
+{
+  "name": "uail",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "uail": "node main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.3",
+    "check-valid-url": "^0.1.0",
+    "clipboardy": "^4.0.0",
+    "glob": "^11.0.0",
+    "playwright": "^1.45.3",
+    "valid-url": "^1.0.9",
+    "yargs": "^17.7.2"
+  }
+}
