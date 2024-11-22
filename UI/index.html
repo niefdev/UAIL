@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UAIL Uploader</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 overflow-hidden">
+  <div class="container mx-auto">
+    <h1 class="text-3xl font-bold mb-6 pt-4">UAIL Upload</h1>
+
+    <div class="grid grid-cols-2 gap-6">
+      
+      <div class="bg-white rounded-md shadow-md p-4">
+        <h2 class="text-xl font-semibold mb-4">Input</h2>
+        <p class="text-gray-600 mb-2">Belum diupload (path folder)</p>
+        <div class="flex items-center gap-2">
+          <input type="text" id="pathIn"
+            class="block w-full mt-2 rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:outline-none"
+            placeholder="Path In" readonly>
+          <button id="setpathin" class="bg-blue-500 text-white px-6 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 transition-all duration-200 ease-in-out">Upload</button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-md shadow-md p-4">
+        <h2 class="text-xl font-semibold mb-4">Output</h2>
+        <p class="text-gray-600 mb-2">Sudah diupload (path folder)</p>
+        <div class="flex items-center gap-2">
+          <input type="text" id="pathOut"
+            class="block w-full rounded-l-md border border-gray-300 py-2 px-3 focus:outline-none focus:outline-none"
+            placeholder="Path Out" readonly>
+          <button id="setpathout"
+            class="bg-blue-500 text-white px-6 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 transition-all duration-200 ease-in-out">
+            Upload
+          </button>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="mt-6 bg-white rounded-md shadow-md p-4">
+      <h2 class="text-xl font-semibold mb-4">Login Credentials</h2>
+      <div class="mb-4">
+        <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+        <input type="text" id="username" placeholder="Enter your username"
+          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500">
+      </div>
+      <div>
+        <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+        <input type="password" id="password" placeholder="Enter your password"
+          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500">
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button
+        id="uploadBtn"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Upload
+      </button>
+    </div>
+  </div>
+
+  <script src="preload.js"></script>
+</body>
+
+</html>

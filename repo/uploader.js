@@ -1,4 +1,5 @@
 const { chromium } = require("playwright");
+const ipc = require('electron').ipcRenderer;
 
 async function uploadFiles(page, filePath) {
   // Extract the filename from the file path
@@ -152,11 +153,13 @@ module.exports = { uploadFiles };
     try {
       await page.waitForSelector(".swal-text", { timeout: 5000 });
       console.error("[!] Error: Username atau password salah.");
+      ipc.send('login-failed', config.username); 
       await browser.close();
       process.exit(1);
     } catch (error) {}
 
     // Navigating to transaction page
+    ipc.send('login-success', config.username); 
     await page.click("[href='/transaksi-ail']");
     await page.click('button:has-text("Tambah Transaksi Baru")');
 
