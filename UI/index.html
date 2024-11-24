@@ -5,40 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UAIL Uploader</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 overflow-hidden">
   <div class="container mx-auto">
-    <h1 class="text-3xl font-bold mb-6 pt-4">UAIL Upload</h1>
-
-    <div class="grid grid-cols-2 gap-6">
-      
-      <div class="bg-white rounded-md shadow-md p-4">
-        <h2 class="text-xl font-semibold mb-4">Input</h2>
-        <p class="text-gray-600 mb-2">Belum diupload (path folder)</p>
-        <div class="flex items-center gap-2">
-          <input type="text" id="pathIn"
-            class="block w-full mt-2 rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:outline-none"
-            placeholder="Path In" readonly>
-          <button id="setpathin" class="bg-blue-500 text-white px-6 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 transition-all duration-200 ease-in-out">Upload</button>
-        </div>
+    <div class="flex justify-between">
+      <h1 class="text-3xl font-bold mb-6 pt-4">UAIL Upload</h1>
+      <div class="mt-4">
+        <button id="goToSettingsBtn"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Go to Settings
+        </button>
       </div>
-
-      <div class="bg-white rounded-md shadow-md p-4">
-        <h2 class="text-xl font-semibold mb-4">Output</h2>
-        <p class="text-gray-600 mb-2">Sudah diupload (path folder)</p>
-        <div class="flex items-center gap-2">
-          <input type="text" id="pathOut"
-            class="block w-full rounded-l-md border border-gray-300 py-2 px-3 focus:outline-none focus:outline-none"
-            placeholder="Path Out" readonly>
-          <button id="setpathout"
-            class="bg-blue-500 text-white px-6 py-2 rounded-r-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 transition-all duration-200 ease-in-out">
-            Upload
-          </button>
-        </div>
-      </div>
-      
     </div>
 
     <div class="mt-6 bg-white rounded-md shadow-md p-4">
@@ -56,14 +35,19 @@
     </div>
 
     <div class="mt-4">
-      <button
-        id="uploadBtn"
+      <button id="loginUploadbtn"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         Upload
       </button>
     </div>
+
   </div>
 
+  <script>
+    document.getElementById('goToSettingsBtn').addEventListener('click', function () {
+      window.location.href = 'settings.html';
+    });
+  </script>
   <script src="preload.js"></script>
 </body>
 

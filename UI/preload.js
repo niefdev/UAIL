@@ -2,16 +2,16 @@ const ipc = require('electron').ipcRenderer;
 const pathin = document.getElementById('setpathin');
 const pathout = document.getElementById('setpathout');
 
-document.getElementById('uploadBtn').addEventListener('click', function() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+// document.getElementById('uploadBtn').addEventListener('click', function() {
+//   const username = document.getElementById('username').value;
+//   const password = document.getElementById('password').value;
 
-  if (username && password) {
-    ipc.send('update-config', username, password);
-  } else {
-    alert("Username dan password harus diisi.");
-  }
-});
+//   if (username && password) {
+//     ipc.send('update-config', username, password);
+//   } else {
+//     alert("Username dan password harus diisi.");
+//   }
+// });
 
 pathin.addEventListener('click', function (event) {
   ipc.send('open-folder-dialog-for-folder-in');

@@ -27,30 +27,60 @@ app.on('window-all-closed', () => {
   }
 });
 
-ipcMain.on('open-folder-dialog-for-folder-in', function (event) {
-  console.log('[ ! ] Membuka dialog folder untuk Path In');
+ipcMain.on('open-folder-dialog-for-folder-done', function (event) {
+  console.log('[ ! ] Membuka dialog folder untuk Path done');
   dialog.showOpenDialog({
     properties: ['openDirectory']
   }).then(result => {
     if (result.filePaths.length > 0) {
-      event.sender.send('selected-folder-in', result.filePaths[0]);
+      event.sender.send('selected-folder-done', result.filePaths[0]);
     } else {
-      console.log('[ ! ] Tidak ada folder yang dipilih untuk Path In.');
+      console.log('[ ! ] Tidak ada folder yang dipilih untuk Path done.');
     }
   }).catch(err => {
     console.log('[ ! ] Terjadi kesalahan saat membuka dialog folder:', err);
   });
 });
 
-ipcMain.on('open-folder-dialog-for-folder-out', function (event) {
-  console.log('[ ! ] Membuka dialog folder untuk Path Out');
+ipcMain.on('open-folder-dialog-for-folder-rename', function (event) {
+  console.log('[ ! ] Membuka dialog folder untuk Path rename');
   dialog.showOpenDialog({
     properties: ['openDirectory']
   }).then(result => {
     if (result.filePaths.length > 0) {
-      event.sender.send('selected-folder-out', result.filePaths[0]);
+      event.sender.send('selected-folder-rename', result.filePaths[0]);
     } else {
-      console.log('[ ! ] Tidak ada folder yang dipilih untuk Path Out.');
+      console.log('[ ! ] Tidak ada folder yang dipilih untuk Path rename.');
+    }
+  }).catch(err => {
+    console.log('[ ! ] Terjadi kesalahan saat membuka dialog folder:', err);
+  });
+});
+
+ipcMain.on('open-folder-dialog-for-folder-error', function (event) {
+  console.log('[ ! ] Membuka dialog folder untuk Path error');
+  dialog.showOpenDialog({
+    properties: ['openDirectory']
+  }).then(result => {
+    if (result.filePaths.length > 0) {
+      event.sender.send('selected-folder-error', result.filePaths[0]);
+    } else {
+      console.log('[ ! ] Tidak ada folder yang dipilih untuk Path error.');
+    }
+  }).catch(err => {
+    console.log('[ ! ] Terjadi kesalahan saat membuka dialog folder:', err);
+  });
+});
+
+ipcMain.on('open-folder-dialog-for-folder-upload', function (event) {
+  console.log('[ ! ] Membuka dialog folder untuk Path upload');
+  dialog.showOpenDialog({
+    properties: ['openDirectory']
+  }).then(result => {
+    if (result.filePaths.length > 0) {
+      event.sender.send('selected-folder-upload', result.filePaths[0]);
+    } else {
+      console.log('[ ! ] Tidak ada folder yang dipilih untuk Path upload.');
     }
   }).catch(err => {
     console.log('[ ! ] Terjadi kesalahan saat membuka dialog folder:', err);
