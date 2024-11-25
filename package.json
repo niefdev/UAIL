@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "uail": "node main.js"
+    "uail": "node up.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "axios": "^1.7.3",
     "check-valid-url": "^0.1.0",
     "clipboardy": "^4.0.0",
+    "electron": "^33.2.0",
     "glob": "^11.0.0",
     "playwright": "^1.45.3",
     "valid-url": "^1.0.9",

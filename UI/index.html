@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UAIL Uploader</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 overflow-hidden">
+  <div class="container mx-auto">
+    <div class="flex justify-between">
+      <h1 class="text-3xl font-bold mb-6 pt-4">UAIL Upload</h1>
+      <div class="mt-4">
+        <button id="goToSettingsBtn"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Go to Settings
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-white rounded-md shadow-md p-4">
+      <h2 class="text-xl font-semibold mb-4">Login Credentials</h2>
+      <div class="mb-4">
+        <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+        <input type="text" id="username" placeholder="Enter your username"
+          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500">
+      </div>
+      <div>
+        <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+        <input type="password" id="password" placeholder="Enter your password"
+          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500">
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button id="loginUploadbtn"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Upload
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById('goToSettingsBtn').addEventListener('click', function () {
+      window.location.href = 'settings.html';
+    });
+  </script>
+  <script src="preload.js"></script>
+</body>
+
+</html>

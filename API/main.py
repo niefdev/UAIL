@@ -121,8 +121,8 @@ def process_file():
         if request.form.get("rename"):
 
             processor = Ocr(file_path)
-            start_page = 2
-            end_page = 4
+            start_page = 1
+            end_page = 5
             text = processor.extract_text_from_pdf(start_page, end_page)
             result = processor.find_ids_and_agenda_numbers(text)
 
