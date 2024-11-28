@@ -12,7 +12,7 @@ class Ocr:
         images = convert_from_path(self.pdf_path, poppler_path=r'Release-24.08.0-0\poppler-24.08.0\Library\bin')
         if start_page < 1 or end_page > len(images) or start_page > end_page:
             raise ValueError(f"Invalid page range: {start_page}-{end_page}. The PDF has {len(images)} pages.")
-        combined_image = self.combine_images(images[start_page-1:end_page])
+        combined_image = self.combine_images(images[start_page-1:end_page-1])
         results = self.ocr(combined_image)
         extracted_text = ""
         if results and isinstance(results[0], list):
