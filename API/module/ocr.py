@@ -12,23 +12,21 @@ class Ocr:
         images = convert_from_path(self.pdf_path, poppler_path=r'Release-24.08.0-0\poppler-24.08.0\Library\bin')
         if start_page < 1 or end_page > len(images) or start_page > end_page:
             raise ValueError(f"Invalid page range: {start_page}-{end_page}. The PDF has {len(images)} pages.")
-        combined_image = self.combine_images(images[start_page-1:end_page-1])
-        results = self.ocr(combined_image)
-        extracted_text = ""
-        if results and isinstance(results[0], list):
-            text = [item[1] for item in results[0] if len(item) > 1]
-            extracted_text = "\n".join(text) + "\n"
-        return extracted_text
+        
+        combined_text = ""
+        for current_page in range(start_page - 1, end_page):
+            current_image = images[current_page]
+            results = self.ocr(current_image)
 
-    def combine_images(self, images):
-        total_height = sum(image.height for image in images)
-        max_width = max(image.width for image in images)
-        combined_image = Image.new('RGB', (max_width, total_height))
-        current_y = 0
-        for image in images:
-            combined_image.paste(image, (0, current_y))
-            current_y += image.height
-        return combined_image
+            if results and isinstance(results[0], list):
+                text = [item[1] for item in results[0] if len(item) > 1]
+                combined_text += "\n".join(text) + "\n"
+
+            validation_result = self.find_ids_and_agenda_numbers(combined_text)
+            if validation_result:
+                return combined_text
+        
+        return combined_text
 
     def find_ids_and_agenda_numbers(self, text):
         cleaned_text = re.sub(r'[^\d\s]', '', text)
