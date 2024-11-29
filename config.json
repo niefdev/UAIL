@@ -5,5 +5,11 @@
   "done": "C:\\Users\\user\\Desktop\\UAIL\\DATA",
   "apikey": "apikey",
   "username": "isti'anah",
-  "password": "P@ssw0rd"
+  "password": "P@ssw0rd",
+  "path": {
+    "rename": "/home/zyx/Desktop/PDF",
+    "upload": null,
+    "raw": null,
+    "error": null
+  }
 }

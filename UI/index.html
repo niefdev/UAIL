@@ -20,17 +20,21 @@
       </div>
     </div>
 
+    <div id="pathMissingNotification" class="bg-red-500 text-white p-4 rounded mb-4" style="display: none;">
+      <p id="missingPathsMessage">Path belum diisi</p>
+    </div>
+
     <div class="mt-6 bg-white rounded-md shadow-md p-4">
       <h2 class="text-xl font-semibold mb-4">Login Credentials</h2>
       <div class="mb-4">
         <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
         <input type="text" id="username" placeholder="Enter your username"
-          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500">
+          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500" value="isti'anah">
       </div>
       <div>
         <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
         <input type="password" id="password" placeholder="Enter your password"
-          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500">
+          class="block w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500" value="P@ssw0rd">
       </div>
     </div>
 
@@ -48,7 +52,7 @@
       window.location.href = 'settings.html';
     });
   </script>
-  <script src="preload.js"></script>
+  <script src="index.js"></script>
 </body>
 
 </html>

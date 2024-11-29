@@ -183,7 +183,7 @@ if (defined_errors.length > 0) {
 let filesArray = [];
 
 try {
-  argv._.forEach((filePath) => {
+  argv._.forEach(() => {
     const resolvedPath = path.resolve(filePath);
 
     if (fs.existsSync(resolvedPath) && fs.lstatSync(resolvedPath).isFile()) {
@@ -248,9 +248,10 @@ let fixedUpload = {};
   for (const filePath of filesArray) {
     const fileName = path.basename(filePath);
     const fileSize = fs.statSync(filePath).size;
-    let uploadedFiles = [filePath];
+    let uploadedFiles = [];  // Ini adalah array yang akan diisi dengan berkas yang berhasil diunggah.
     const filePattern = /^[0-9]{12}-[0-9]{18}\.pdf$/;
 
+    // Cek apakah berkas harus diupload atau tidak
     if (argv.upload && !filePattern.test(fileName)) {
       console.log(
         "[i] Berkas",
@@ -260,6 +261,7 @@ let fixedUpload = {};
       continue;
     }
 
+    // Proses rename jika berkas cocok dengan pola
     if (argv.rename && filePattern.test(fileName)) {
       const destPath = path.join(renameFolder, fileName);
       fs.renameSync(filePath, destPath);
@@ -284,14 +286,16 @@ let fixedUpload = {};
           response.data &&
           (Array.isArray(response.data.files) || response.data.filename)
         ) {
+          // Rename file jika perlu
           if (argv.rename) {
             const newFileName = response.data.filename + ".pdf";
             const destPath = path.join(renameFolder, newFileName);
             fs.renameSync(filePath, destPath);
           }
 
+          // Proses upload jika ada
           if (argv.upload) {
-            uploadedFiles = [];
+            uploadedFiles = []; // Mengosongkan array untuk menampung berkas yang diunggah
             for (const resultFile of response.data.files) {
               const fileUrl = `${config.api}${resultFile}`;
               const destPath = path.join(tempFolder, path.basename(fileUrl));
@@ -312,30 +316,31 @@ let fixedUpload = {};
                   }
                 );
 
+                // Menyimpan hasil unduhan ke dalam berkas
                 downloadResponse.data.pipe(writer);
 
                 await new Promise((resolve, reject) => {
                   writer.on("finish", () => {
-                    uploadedFiles.push(destPath);
+                    uploadedFiles.push(destPath); // Menambahkan jalur berkas ke dalam array
                     resolve();
                   });
                   writer.on("error", reject);
                 });
               } catch (error) {
                 console.warn(
-                  `[!] Gagal mengunduh berkas ${path
-                    .basename(filePath)
-                    .slice(0, 31)} (akan dilewati)`
+                  `[!] Gagal mengunduh berkas ${path.basename(filePath).slice(0, 31)} (akan dilewati)`
                 );
-                uploadedFiles.forEach((filePath) => {
+                uploadedFiles.forEach((uploadedFilePath) => {
                   try {
-                    fs.unlinkSync(filePath);
-                  } catch (unlinkError) {}
+                    fs.unlinkSync(uploadedFilePath);
+                  } catch (unlinkError) { }
                 });
-                uploadedFiles = [];
+                uploadedFiles = []; // Reset uploadedFiles jika ada kegagalan
                 break;
               }
             }
+
+            // Jika tidak ada berkas yang diunggah, lewati berkas ini
             if (uploadedFiles.length === 0) {
               continue;
             }
@@ -346,11 +351,8 @@ let fixedUpload = {};
           );
         }
       } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.error
-        ) {
+        // Menangani error dari server atau kesalahan lain
+        if (error.response && error.response.data && error.response.data.error) {
           if (error.response.data.error.includes("ID Pelanggan")) {
             console.warn(`[!] ${error.response.data.error}:`, filePath);
             continue;
@@ -360,32 +362,37 @@ let fixedUpload = {};
           console.log(error);
           console.warn("[!] Error:", error.message);
         }
-        process.exit(1);
+        process.exit(1); // Keluar jika terjadi error
       }
     }
-    fixedUpload[filePath] = uploadedFiles;
+
+    // Menyimpan hasil unggahan ke dalam objek fixedUpload
+    if (uploadedFiles.length > 0) {
+      fixedUpload[filePath] = uploadedFiles; // Menambahkan entry untuk filePath dengan daftar berkas yang diunggah
+    }
   }
-  if (argv.upload) {
-try {
-  const filePath = path.join(__dirname, "repo", "uploader.js");
-
-  // Membaca konten file secara sinkron
-  fs.readFile(filePath, "utf-8", (err, repoCode) => {
-    if (err) {
-      console.error(`[!] Error: Gagal membaca file dari ${filePath} - ${err.message}`);
-      return;
-    }
-
-    // Menjalankan kode JavaScript yang dibaca dari file
+  if (config.upload) {
     try {
-      eval(repoCode);
-    } catch (evalError) {
-      console.error(`[!] Error: Gagal menjalankan kode dari file - ${evalError.message}`);
+      const filePath = path.join(__dirname, "repo", "uploader.js");
+
+      // Membaca konten file secara sinkron
+      fs.readFile(filePath, "utf-8", (err, repoCode) => {
+        if (err) {
+          console.error(`[!] Error: Gagal membaca file dari ${filePath} - ${err.message}`);
+          return;
+        }
+
+        // Menjalankan kode JavaScript yang dibaca dari file
+        try {
+          eval(repoCode);
+        } catch (evalError) {
+          console.error(`[!] Error: Gagal menjalankan kode dari file - ${evalError.message}`);
+        }
+      });
+
+    } catch (error) {
+      console.error(`[!] Error: ${error.message}`);
     }
-  });
-} catch (error) {
-  console.error(`[!] Error: ${error.message}`);
-}
 
   }
 })(filesArray);

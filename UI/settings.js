@@ -1,7 +1,55 @@
 const ipc = require('electron').ipcRenderer;
+const fs = require('fs');
+const path = require('path');
 
 const modal = document.getElementById('modal');
 const closeModal = document.getElementById('closeModal');
+
+const configPath = path.join(__dirname, '../config.json');
+
+function saveConfig(newData) {
+  let existingData = {};
+  if (fs.existsSync(configPath)) {
+    const fileContent = fs.readFileSync(configPath, 'utf-8');
+    existingData = JSON.parse(fileContent);
+  }
+
+  if (!existingData.settings) {
+    existingData.settings = {
+      mode: "simple",
+      path: {
+        done: "",
+        rename: "",
+        error: "",
+        delete: "",
+      },
+    };
+  }
+
+  existingData.settings = {
+    ...existingData.settings,
+    ...newData.settings,
+  };
+
+  fs.writeFileSync(configPath, JSON.stringify(existingData, null, 2), 'utf-8');
+  console.log('Konfigurasi berhasil diperbarui:', existingData);
+}
+
+document.getElementById('saveBtn').addEventListener('click', function () {
+  const newSettings = {
+    settings: {
+      mode: document.getElementById('simplePath').checked ? "simple" : "advanced",
+      path: {
+        done: paths.done,
+        rename: paths.rename,
+        error: paths.error,
+        upload: paths.upload,
+      },
+    },
+  }
+  saveConfig(newSettings);
+});
+
 
 // Element
 closeModal.addEventListener('click', () => {
@@ -37,6 +85,7 @@ const buttons = {
   error: document.getElementById('errorBtn'),
   done: document.getElementById('doneBtn'),
   save: document.getElementById('saveBtn'),
+  simple: document.getElementById('simpleMainBtn'),
 
 };
 
@@ -46,6 +95,7 @@ const previews = {
   rename: document.getElementById('renamePath'),
   error: document.getElementById('errorPath'),
   done: document.getElementById('donePath'),
+  simple: document.getElementById('mainPreview'),
 };
 
 // Modal Elements
@@ -71,6 +121,8 @@ ipc.on('selected-folder-upload', (event, path) => (paths.upload = path));
 ipc.on('selected-folder-rename', (event, path) => (paths.rename = path));
 ipc.on('selected-folder-error', (event, path) => (paths.error = path));
 ipc.on('selected-folder-done', (event, path) => (paths.done = path));
+ipc.on('selected-folder-main', (event, path) => (paths.done = path));
+
 
 // Add Event Listeners for IPC communication
 buttons.upload.addEventListener('click', () => ipc.send('open-folder-dialog-for-folder-upload'));
@@ -83,3 +135,5 @@ previews.upload.addEventListener('click', () => paths.upload && showModalWithPat
 previews.rename.addEventListener('click', () => paths.rename && showModalWithPath(paths.rename));
 previews.error.addEventListener('click', () => paths.error && showModalWithPath(paths.error));
 previews.done.addEventListener('click', () => paths.done && showModalWithPath(paths.done));
+previews.simple.addEventListener('click', () => paths.simple && showModalWithPath(paths.simple));
+

@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "uail": "node up.js"
+    "uail": "npx electron ."
   },
   "author": "",
   "license": "ISC",

@@ -1,5 +1,7 @@
 const { chromium } = require("playwright");
-const ipc = require('electron').ipcRenderer;
+const { setData } = require("./cache");
+
+
 
 async function uploadFiles(page, filePath) {
   // Extract the filename from the file path
@@ -38,7 +40,6 @@ async function uploadFiles(page, filePath) {
   await page.waitForSelector(".swal-overlay.swal-overlay--show-modal", {
     timeout: 1000000,
   });
-  await page.waitForTimeout(1000000);
 
   let swalTextContent0 = await page.textContent(".swal-text");
 
@@ -58,7 +59,6 @@ async function uploadFiles(page, filePath) {
   await page.waitForSelector(".swal-overlay.swal-overlay--show-modal", {
     timeout: 1000000,
   });
-  await page.waitForTimeout(1000000);
 
   let swalTextContent1 = await page.textContent(".swal-text");
 
@@ -99,7 +99,6 @@ async function uploadFiles(page, filePath) {
   await page.waitForSelector(".swal-overlay.swal-overlay--show-modal", {
     timeout: 1000000,
   });
-  await page.waitForTimeout(1000000);
   swalTextContent = await page.textContent(".swal-text");
 
   console.log(`[i] ${idpel} / ${idag}:`, swalTextContent);
@@ -122,6 +121,8 @@ module.exports = { uploadFiles };
     browser.on("disconnected", () => {
       process.exit(0);
     });
+
+    console.log(config)
 
     await page.goto(config.url);
 
@@ -149,17 +150,20 @@ module.exports = { uploadFiles };
       captchaDetails.value
     );
     await page.click('button:has-text("Login")');
-
+    
     try {
       await page.waitForSelector(".swal-text", { timeout: 5000 });
       console.error("[!] Error: Username atau password salah.");
-      ipc.send('login-failed', config.username); 
+      setData("0")
       await browser.close();
       process.exit(1);
-    } catch (error) {}
+    } catch (error) {
+    }
+    
+    setData("1")
 
-    // Navigating to transaction page
-    ipc.send('login-success', config.username); 
+    await new Promise(resolve => setTimeout(resolve, 100000000));
+
     await page.click("[href='/transaksi-ail']");
     await page.click('button:has-text("Tambah Transaksi Baru")');
 
@@ -171,7 +175,7 @@ module.exports = { uploadFiles };
       if (uploaded) {
         const sourceFilePath = keys[i];
         const fileName = path.basename(sourceFilePath);
-        const destinationPath = path.join(doneFolder, "upload", fileName);
+        const destinationPath = path.join(config.path.upload, fileName);
 
         fs.rename(sourceFilePath, destinationPath, (err) => {
           if (err) {
